@@ -3,18 +3,19 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model users {
-  uid       BigInt  @id @default(autoincrement())
-  FirstName String? @db.Text
-  LastName  String? @db.Text
-  Username  String? @db.Text
-  Email     String? @db.Text
-  Company   String? @db.Text
-  Image_URL String? @map("Image URL") @db.Text
+  ID        BigInt  @id @default(autoincrement())
+  FirstName String? @db.VarChar(255)
+  LastName  String? @db.VarChar(255)
+  Username  String? @db.VarChar(255)
+  Email     String? @db.VarChar(255)
+  Company   String? @db.VarChar(255)
+  Image_URL String? @db.Text
 
-  @@index([uid], map: "__SHARDKEY")
+  @@index([ID], map: "__SHARDKEY")
 }

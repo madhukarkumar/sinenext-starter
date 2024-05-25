@@ -6,7 +6,12 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const users = await prisma.users.findMany();
+      const users = await prisma.users.findMany({
+          orderBy: {
+              FirstName: 'asc', // Order by FirstName in ascending order
+          },
+
+      });
     // Convert BigInt values to strings
     const usersWithStrings = users.map((user) => {
       const modifiedUser = { ...user };
