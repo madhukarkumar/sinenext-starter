@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  uid       BigInt  @id @default(autoincrement())
+  FirstName String? @db.Text
+  LastName  String? @db.Text
+  Username  String? @db.Text
+  Email     String? @db.Text
+  Company   String? @db.Text
+  Image_URL String? @map("Image URL") @db.Text
+
+  @@index([uid], map: "__SHARDKEY")
+}
