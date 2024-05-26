@@ -1,6 +1,7 @@
 // app/api/users/route.ts
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { NextApiRequest } from 'next';
 
 const prisma = new PrismaClient();
 
@@ -37,7 +38,7 @@ export async function GET() {
 
 
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextApiRequest) {
     try {
         const data = await req.json();
         const newUser = await prisma.users.create({data});
