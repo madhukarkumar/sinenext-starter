@@ -37,33 +37,3 @@ export async function GET() {
 }
 
 
-
-
-
-export async function PUT(req: NextApiRequest, res: NextApiResponse) {
-    try {
-        const { id, ...data } = req.body;
-        const updatedUser = await prisma.users.update({
-            where: { ID: id },
-            data,
-        });
-        return res.status(200).json(updatedUser);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Failed to update user' });
-    }
-}
-
-export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
-    try {
-        const { id } = req.body;
-        const deletedUser = await prisma.users.delete({
-            where: { ID: id },
-        });
-        return res.status(200).json(deletedUser);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Failed to delete user' });
-    }
-}
-
