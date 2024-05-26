@@ -31,7 +31,7 @@ export async function GET() {
         return NextResponse.json(usersWithStrings);
     } catch (error) {
         console.error(error);
-        return NextResponse.error("Failed to fetch users", 500);
+        return NextResponse.error();
     }
 }
 
@@ -44,15 +44,15 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(newUser);
     } catch (error) {
         console.error(error);
-        return NextResponse.error("Failed to create new user", 500);
+        return NextResponse.error();
     }
 }
 
 export async function PUT() {
-  return NextResponse.error("Method not allowed", 405);
+  return NextResponse.error();
 }
 
 export async function DELETE() {
-  return NextResponse.error("Method not allowed", 405);
+  return NextResponse.error();
 }
 
