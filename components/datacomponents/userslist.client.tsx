@@ -55,7 +55,7 @@ const UsersComponent: React.FC = () => {
     };
 
     return (
-        <div className="border-2 m-4 p-6 rounded-2xl bg-gray-800 text-white">
+        <div className="border-2 m-10 p-5 rounded-2xl bg-gray-800 text-white">
             <Table aria-label="Users table"
                    color='secondary'>
                 <TableHeader columns={columns}>
@@ -76,11 +76,11 @@ const UsersComponent: React.FC = () => {
                                     }
                                 </TableCell>}
                             </TableRow>
-                        );
+                    );
                     }}
                 </TableBody>
             </Table>
-            <div className="flex items-center justify-center">
+                        <div className="flex items-center justify-center">
             <button onClick={loadMore} className="m-3 p-3 columns-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Load More
             </button>

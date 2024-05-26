@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function Component() {
     return (
         <main className="flex flex-col min-h-screen items-center justify-center px-4 sm:px-6 lg:px-8">
-            <div className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-mono">SineNext Stack</div>
+            <div className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-mono">sin.Next Stack</div>
             <div className="text-xl sm:text-2xl md:text-3xl font-mono m-4 text-gray-300">SingleStore, Elegance SDK &
                 NextJS
             </div>

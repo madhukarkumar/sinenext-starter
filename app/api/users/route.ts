@@ -5,28 +5,27 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function GET() {
-  try {
-      const users = await prisma.users.findMany({
-          orderBy: {
-              FirstName: 'asc', // Order by FirstName in ascending order
-          },
-
-      });
-    // Convert BigInt values to strings
-    const usersWithStrings = users.map((user) => {
-      const modifiedUser = { ...user };
-      for (const key in modifiedUser) {
-        if (typeof modifiedUser[key] === 'bigint') {
-          modifiedUser[key] = modifiedUser[key].toString();
-        }
-      }
-      return modifiedUser;
-    });
-    return NextResponse.json(usersWithStrings);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.error("Failed to fetch users", 500);
-  }
+    try {
+        const users = await prisma.users.findMany({
+            orderBy: {
+                FirstName: 'asc', // Order by FirstName in ascending order
+            },
+        });
+        // Convert BigInt values to strings
+        const usersWithStrings = users.map((user) => {
+            const modifiedUser = { ...user };
+            for (const key in modifiedUser) {
+                if (typeof modifiedUser[key as keyof typeof modifiedUser] === 'bigint') {
+                    modifiedUser[key as keyof typeof modifiedUser] = modifiedUser[key as keyof typeof modifiedUser].toString();
+                }
+            }
+            return modifiedUser;
+        });
+        return NextResponse.json(usersWithStrings);
+    } catch (error) {
+        console.error(error);
+        return NextResponse.error("Failed to fetch users", 500);
+    }
 }
 
 export async function POST(req: NextRequest) {
