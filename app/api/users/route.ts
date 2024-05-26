@@ -38,16 +38,7 @@ export async function GET() {
 
 
 
-export async function POST(req: NextApiRequest, res:NextApiResponse) {
-    try {
-        const data = await req.body();
-        const newUser = await prisma.users.create({data});
-        return res.status(200).json(newUser);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Failed to create user' });
-    }
-}
+
 
 export async function PUT(req: NextApiRequest, res: NextApiResponse) {
     try {
