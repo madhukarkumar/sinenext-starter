@@ -13,10 +13,12 @@ export async function GET() {
         });
         // Convert BigInt values to strings
         const usersWithStrings = users.map((user) => {
-            const modifiedUser = { ...user };
-            for (const key in modifiedUser) {
-                if (typeof modifiedUser[key as keyof typeof modifiedUser] === 'bigint') {
-                    modifiedUser[key as keyof typeof modifiedUser] = modifiedUser[key as keyof typeof modifiedUser].toString();
+            const modifiedUser: { [key: string]: string | null } = {};
+            for (const key in user) {
+                if (typeof user[key as keyof typeof user] === 'bigint') {
+                    modifiedUser[key] = user[key as keyof typeof user].toString();
+                } else {
+                    modifiedUser[key] = user[key as keyof typeof user] as string | null;
                 }
             }
             return modifiedUser;
@@ -27,7 +29,6 @@ export async function GET() {
         return NextResponse.error("Failed to fetch users", 500);
     }
 }
-
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
