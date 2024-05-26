@@ -15,10 +15,14 @@ export async function GET() {
         const usersWithStrings = users.map((user) => {
             const modifiedUser: { [key: string]: string | null } = {};
             for (const key in user) {
-                if (typeof user[key as keyof typeof user] === 'bigint') {
-                    modifiedUser[key] = user[key as keyof typeof user].toString();
+                if (user[key as keyof typeof user] !== null) {
+                    if (typeof user[key as keyof typeof user] === 'bigint') {
+                        modifiedUser[key] = user[key as keyof typeof user].toString();
+                    } else {
+                        modifiedUser[key] = user[key as keyof typeof user] as string | null;
+                    }
                 } else {
-                    modifiedUser[key] = user[key as keyof typeof user] as string | null;
+                    modifiedUser[key] = null;
                 }
             }
             return modifiedUser;
@@ -28,8 +32,7 @@ export async function GET() {
         console.error(error);
         return NextResponse.error("Failed to fetch users", 500);
     }
-}
-export async function POST(req: NextRequest) {
+}export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
         const newUser = await prisma.users.create({data});
