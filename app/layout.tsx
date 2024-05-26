@@ -11,8 +11,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "Developer Portfolio",
-  description: "My developer portfolio",
+  title: "sin.Next Stack",
+  description: "Full stack Next.js app with SingleStore, Elegance SDK & NextJS for real-time intelligent apps",
 };
 
 export default function RootLayout({
