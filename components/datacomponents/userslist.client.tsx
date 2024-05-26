@@ -18,15 +18,26 @@ const columns = [
     { key: "Company", label: "Company" },
 ];
 const randomNumber = Math.floor(Math.random() * 500) + 1;
+interface User {
+    ID: number;
+    FirstName: string;
+    LastName: string;
+    Email: string;
+    Company: string;
+    Avatar: string;
+    [key: string]: string | number;
+}
+
 const UsersComponent: React.FC = () => {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]); // Use the User interface here
+    const [displayCount, setDisplayCount] = useState(10);
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const response = await fetch('/api/users');
-                const data = await response.json();
-                const usersWithAvatars = await Promise.all(data.map(async user => {
+                const data: User[] = await response.json(); // Use the User interface here
+                const usersWithAvatars = await Promise.all(data.map(async (user: User) => { // Use the User interface here
                     const randomNumber = Math.floor(Math.random() * 500) + 1;
                     const avatarUrl = `https://i.pravatar.cc/${randomNumber}`;
                     return {...user, Avatar: avatarUrl};
@@ -39,6 +50,10 @@ const UsersComponent: React.FC = () => {
         fetchUsers();
     }, []);
 
+    const loadMore = () => {
+        setDisplayCount(prevCount => prevCount + 10);
+    };
+
     return (
         <div className="border-2 m-4 p-6 rounded-2xl bg-gray-800 text-white">
             <Table aria-label="Users table"
@@ -48,9 +63,9 @@ const UsersComponent: React.FC = () => {
                         <TableColumn key={column.key}>{column.label}</TableColumn>
                     )}
                 </TableHeader>
-                <TableBody items={users}>
-                    {user => {
-                        const randomNumber = Math.floor(Math.random() * 500) + 1; // Generate a new random number for each user
+                <TableBody items={users.slice(0, displayCount)}>
+                    {(user: User) => { // Use the User interface here
+                        const randomNumber = Math.floor(Math.random() * 500) + 1;
                         return (
                             <TableRow key={user.ID}>
                                 {columnKey => <TableCell>
@@ -65,8 +80,13 @@ const UsersComponent: React.FC = () => {
                     }}
                 </TableBody>
             </Table>
+            <div className="flex items-center justify-center">
+            <button onClick={loadMore} className="m-3 p-3 columns-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Load More
+            </button>
+            </div>
         </div>
-    );
+);
 };
 
 export default UsersComponent;

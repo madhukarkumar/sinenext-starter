@@ -24,12 +24,12 @@ export default function RootLayout({
       <html lang="en">
       <body
           className={cn(
-              "min-h-screen bg-background font-sans antialiased",
+              "min-h-screen bg-gradient-radial from-gray-700 via-purple-500 to-gray-200 font-sans antialiased",
               fontSans.variable
           )}
       >
         <Providers>
-            <TooltipProvider>{children}</TooltipProvider>
+            {children}
          </Providers>
       </body>
       </html>
