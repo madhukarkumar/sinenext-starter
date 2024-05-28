@@ -15,7 +15,7 @@ export default function Component() {
                 </Link>
             </button>
             <button className="m-3 p-3 columns-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <Link href="#">
+                <Link href="/chat">
                     AI Chatbot
                 </Link>
             </button>
