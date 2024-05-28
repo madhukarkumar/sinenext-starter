@@ -35,6 +35,7 @@ export function Chat() {
         embeddingField: "embedding",
         systemRole: "You are an assistant",
         maxContextLength: 5000,
+        model: "gpt-4o",
       });
 
       if (completion?.content) {
