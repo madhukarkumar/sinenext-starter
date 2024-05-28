@@ -1,5 +1,5 @@
 {
-  "name": "singlestore-prisma-starter",
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,28 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.3.6",
-    "@prisma/client": "^5.14.0",
-    "@radix-ui/react-icons": "^1.3.0",
-    "@singlestore/elegance-sdk": "^0.0.21",
+    "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.379.0",
     "next": "14.2.3",
-    "openai": "^4.47.1",
-    "prisma": "^5.14.0",
-    "radix-ui": "^1.0.1",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "clsx": "^2.1.1",
-    "framer-motion": "^11.2.6",
-    "postcss": "^8",
-    "tailwind-merge": "^2.3.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "postcss": "^8.4.38",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5"
+    "typescript": "^5.4.5"
   }
 }
