@@ -51,24 +51,24 @@ export function Chat() {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4 border w-full max-w-96">
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <input
-          className="border"
-          value={inputValue}
-          placeholder="Enter value"
-          onChange={handleValueChange}
-        />
-        <button type="submit">Submit</button>
-      </form>
+      <div className="flex flex-col w-screen ml-10 mr-10 p-2 justify-between">
+        <ul className="overflow-y-auto flex-grow ml-10 mr-10">
+          {messages.map((message) => (
+              <li key={message.id} className="p-2 bg-zinc-100 whitespace-pre-wrap">
+                {message.content}
+              </li>
+          ))}
+        </ul>
 
-      <ul className="border-t flex flex-col pt-4 gap-2">
-        {messages.map((message) => (
-          <li key={message.id} className="p-2 bg-zinc-100">
-            {message.content}
-          </li>
-        ))}
-      </ul>
-    </div>
+        <form onSubmit={handleSubmit}>
+          <input
+              className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
+              value={inputValue}
+              placeholder="Enter value"
+              onChange={handleValueChange}
+          />
+
+        </form>
+      </div>
   );
 }
