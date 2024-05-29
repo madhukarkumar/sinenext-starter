@@ -1,7 +1,9 @@
 import { Metadata } from "next";
 
+import { ChatContainer } from "@/components/chat-container";
+
 export const metadata: Metadata = { title: "Chat" };
 
 export default async function UsersPage() {
-  return <h1 className="text-3xl">Chat</h1>;
+  return <ChatContainer />;
 }

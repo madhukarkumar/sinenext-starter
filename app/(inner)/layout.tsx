@@ -4,7 +4,7 @@ export default function InnterLayout({ children }: Readonly<{ children: React.Re
   return (
     <>
       <Header />
-      <main className="flex flex-1 flex-col p-4">{children}</main>
+      <main className="relative flex flex-1 flex-col p-4">{children}</main>
     </>
   );
 }
