@@ -6,15 +6,7 @@
     "import/order": [
       "error",
       {
-        "groups": [
-          "builtin",
-          "external",
-          "type",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ],
+        "groups": ["builtin", "external", "type", "internal", "parent", "sibling", "index"],
         "pathGroups": [
           {
             "pattern": "@/types",
