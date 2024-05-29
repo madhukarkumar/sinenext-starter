@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { getBooks } from "@/lib/book/get-many";
-import { ChatContainer } from "@/components/chat-container";
+import { ChatContainer } from "@/components/chat/container";
 
 export const metadata: Metadata = { title: "Chat" };
 
