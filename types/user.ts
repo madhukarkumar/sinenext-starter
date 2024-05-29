@@ -7,4 +7,4 @@ export type UserRow = {
   Company?: string;
 };
 
-export type User = Omit<UserRow, "ID"> & { avatar?: string };
+export type User = UserRow & { avatar?: string };
