@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createUser } from "@/lib/user/create";
 import { deleteUser } from "@/lib/user/delete";
 import { getUsers } from "@/lib/user/get-many";
+import { updateUser } from "@/lib/user/update";
 
 function handleError(error: unknown) {
   console.error(error);
@@ -27,6 +28,19 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     await createUser(body);
+    return new NextResponse(null, { status: 201 });
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = +(searchParams.get("id") ?? 0);
+    if (!id) throw new Error("id is undefined");
+    const body = await req.json();
+    await updateUser(id, body);
     return new NextResponse(null, { status: 201 });
   } catch (error) {
     return handleError(error);

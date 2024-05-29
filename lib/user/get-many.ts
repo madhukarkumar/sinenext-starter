@@ -7,7 +7,7 @@ export async function getUsers(filter: { offset?: number; limit?: number } = {})
 
   const users = await eleganceServerClient.controllers.findMany<UserRow[]>({
     collection: "users",
-    extra: `ORDER BY FirstName ASC LIMIT ${limit} OFFSET ${offset}`,
+    extra: `ORDER BY createdAT DESC, FirstName ASC LIMIT ${limit} OFFSET ${offset}`,
   });
 
   return Promise.all(users.map(async (user) => ({ ...user, avatar: await getUserAvatar() })));

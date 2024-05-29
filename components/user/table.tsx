@@ -1,21 +1,17 @@
 "use client";
 
 import { ColumnDef, Row, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { IS_PUBLIC } from "@/constants";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { UserForm } from "@/components/user/form";
 import { ComponentProps } from "@/types/ui";
 import { User } from "@/types/user";
 
@@ -142,38 +138,52 @@ function ActionsCell({ row }: { row: Row<User> }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleDeleteClick = async () => {
+  const handleFetch = async (fetch: Promise<Response>) => {
     try {
       setIsLoading(true);
-      await fetch(`/api/users?id=${row.original.ID}`, { method: "DELETE" });
+      const response = await fetch;
       router.refresh();
+      return response;
     } catch (error) {
-      console.error(error);
+      throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="h-8 w-8 p-0"
-        >
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          // disabled // For your local env uncomment below and comment this one
-          disabled={isLoading}
-          onClick={handleDeleteClick}
-        >
-          Delete
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex items-center">
+      <UserForm
+        trigger={
+          <Button
+            variant="ghost"
+            className="gap-1 text-sm"
+            disabled={isLoading}
+          >
+            <Edit className="size-4" />
+            Edit
+          </Button>
+        }
+        defaultValues={row.original}
+        onSubmit={(values) => {
+          return handleFetch(
+            fetch(`/api/users?id=${row.original.ID}`, { method: "PUT", body: JSON.stringify(values) }),
+          );
+        }}
+      />
+
+      <Button
+        variant="ghost"
+        className="gap-1 text-sm"
+        disabled={IS_PUBLIC || isLoading}
+        onClick={() => {
+          if (IS_PUBLIC) return;
+          return handleFetch(fetch(`/api/users?id=${row.original.ID}`, { method: "DELETE" }));
+        }}
+      >
+        <Trash className="size-4" />
+        Delete
+      </Button>
+    </div>
   );
 }
