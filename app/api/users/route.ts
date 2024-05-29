@@ -1,39 +1,30 @@
 // app/api/users/route.ts
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
+import { createUser } from "@/lib/user/create";
+import { getUsers } from "@/lib/user/get-many";
 
-export async function GET() {
-    try {
-        const users = await prisma.users.findMany({
-            orderBy: {
-                FirstName: 'asc', // Order by FirstName in ascending order
-            },
-        });
-        // Convert BigInt values to strings
-        const usersWithStrings = users.map((user) => {
-            const modifiedUser: { [key: string]: string | null } = {};
-            for (const key in user) {
-                const value = user[key as keyof typeof user];
-                if (value !== null) {
-                    if (typeof value === 'bigint') {
-                        modifiedUser[key] = value.toString();
-                    } else {
-                        modifiedUser[key] = value as string | null;
-                    }
-                } else {
-                    modifiedUser[key] = null;
-                }
-            }
-            return modifiedUser;
-        });
-        return NextResponse.json(usersWithStrings);
-    } catch (error) {
-        console.error(error);
-        return NextResponse.error();
-    }
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const offset = +(searchParams.get("skip") ?? 0);
+    const limit = +(searchParams.get("limit") ?? 10);
+    const users = await getUsers({ offset, limit });
+    return NextResponse.json(users);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.error();
+  }
 }
 
-
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    await createUser(body);
+    return new NextResponse(null, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    const _error = typeof error === "object" && error && "message" in error ? `${error.message}` : "Error";
+    return NextResponse.json({ error: _error }, { status: 500 });
+  }
+}

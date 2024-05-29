@@ -34,7 +34,8 @@ npm run dev
 ```
 
 ## Prisma Setup
+
 If you make changes to your schema in your database run the following commands
-```prisma db pull```
+`prisma db pull`
 then generate the prisma client
-```prisma generate```
+`prisma generate`

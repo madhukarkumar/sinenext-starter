@@ -1,25 +1,45 @@
-import Link from 'next/link';
+import { Folder } from "lucide-react";
+import Link from "next/link";
 
-export default function Component() {
-    return (
-        <main className="flex flex-col min-h-screen items-center justify-center px-4 sm:px-6 lg:px-8">
-            <div className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-mono text-gray-800">sin.Next Stack</div>
-            <div className="text-xl sm:text-2xl md:text-3xl font-mono m-4 text-gray-300">SingleStore, Elegance SDK &
-                NextJS
-            </div>
-            <div className="text-xl sm:text-2xl md:text-3xl font-mono">For real-time intelligent apps</div>
-            <div className='grid-cols-3'>
-            <button className="m-3 p-3 columns-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <Link href="/users">
-                        CRUD example
-                </Link>
-            </button>
-            <button className="m-3 p-3 columns-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <Link href="/chat">
-                    AI Chatbot
-                </Link>
-            </button>
-            </div>
-        </main>
-    );
+import { Dots } from "@/components/dots";
+import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/constants/routes";
+
+export default function Home() {
+  return (
+    <main className="relative flex flex-1 flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center text-center font-mono">
+        <h1 className="text-4xl md:text-6xl lg:text-8xl">sin.Next Stack</h1>
+        <p className="mt-4 text-xl md:mt-8 md:text-3xl">
+          <span className="text-primary">SingleStore, Elegance SDK & NextJS</span>
+          <span className="mt-2 block md:mt-4">For real-time intelligent apps</span>
+        </p>
+      </div>
+
+      <div className="mt-6 flex items-center gap-4 md:mt-12">
+        <Button asChild>
+          <Link href={ROUTES.USERS}>CRUD Example</Link>
+        </Button>
+        <Button asChild>
+          <Link href={ROUTES.CHAT}>AI Chatbot</Link>
+        </Button>
+      </div>
+
+      <Button
+        asChild
+        variant="outline"
+        className="mt-4 items-center gap-1"
+      >
+        <Link
+          href="https://github.com/madhukarkumar/sinnext-starter"
+          target="_blank"
+        >
+          <Folder className="size-5" />
+          Git Repository
+        </Link>
+      </Button>
+
+      <Dots />
+    </main>
+  );
 }

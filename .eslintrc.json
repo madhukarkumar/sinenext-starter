@@ -1,0 +1,64 @@
+{
+  "extends": ["next/core-web-vitals", "prettier"],
+  "plugins": ["import", "prettier"],
+  "rules": {
+    "prettier/prettier": "warn",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "type",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@/types",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/constants",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/actions/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/hooks/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/lib/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/components/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/**/*",
+            "group": "internal"
+          }
+        ],
+        "newlines-between": "always",
+        "distinctGroup": false,
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "warnOnUnassignedImports": true
+      }
+    ]
+  }
+}
