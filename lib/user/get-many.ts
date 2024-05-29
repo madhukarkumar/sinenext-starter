@@ -10,5 +10,5 @@ export async function getUsers(filter: { offset?: number; limit?: number } = {})
     extra: `ORDER BY FirstName ASC LIMIT ${limit} OFFSET ${offset}`,
   });
 
-  return Promise.all(users.map(async ({ ID, ...user }) => ({ ...user, avatar: await getUserAvatar() })));
+  return Promise.all(users.map(async (user) => ({ ...user, avatar: await getUserAvatar() })));
 }

@@ -1,12 +1,20 @@
 "use client";
 
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, Row, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ComponentProps } from "@/types/ui";
 import { User } from "@/types/user";
@@ -35,6 +43,12 @@ const columns: ColumnDef<User>[] = [
   { accessorKey: "LastName", header: "Last Name" },
   { accessorKey: "Email", header: "Email" },
   { accessorKey: "Company", header: "Company" },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      return <ActionsCell row={row} />;
+    },
+  },
 ];
 
 export function UsersTable({ className, data = [], count, ...props }: UsersTableProps) {
@@ -121,5 +135,45 @@ export function UsersTable({ className, data = [], count, ...props }: UsersTable
         </Button>
       )}
     </div>
+  );
+}
+
+function ActionsCell({ row }: { row: Row<User> }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleDeleteClick = async () => {
+    try {
+      setIsLoading(true);
+      await fetch(`/api/users?id=${row.original.ID}`, { method: "DELETE" });
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="h-8 w-8 p-0"
+        >
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem
+          // disabled // For your local env uncomment below and comment this one
+          disabled={isLoading}
+          onClick={handleDeleteClick}
+        >
+          Delete
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
