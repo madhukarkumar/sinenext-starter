@@ -12,6 +12,7 @@
     "@hookform/resolvers": "^3.4.2",
     "@prisma/client": "^5.14.0",
     "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@singlestore/elegance-sdk": "^0.0.21",
     "@tanstack/react-table": "^8.17.3",

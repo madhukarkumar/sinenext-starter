@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SendHorizontal } from "lucide-react";
-import { ComponentProps, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Markdown from "react-markdown";
 import { z } from "zod";
@@ -14,8 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Book } from "@/types/book";
+import { ComponentProps } from "@/types/ui";
 
-export type ChatContainerProps = ComponentProps<"div">;
+export type ChatContainerProps = ComponentProps<"div", { books: Book[] }>;
 
 type Message = { content: string; role: "user" | "assistant"; createdAt: number };
 
@@ -25,8 +28,12 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export function ChatContainer({ className, ...props }: ChatContainerProps) {
-  const [messages, setMessages] = useState<Message[]>([]);
+export function ChatContainer({ className, books, ...props }: ChatContainerProps) {
+  const [activeBook, setActiveBook] = useState<Book["embeddingCollectionName"]>("");
+
+  const [messages, setMessages] = useState<Record<Book["embeddingCollectionName"], Message[]>>(
+    books.reduce((acc, book) => ({ ...acc, [book.embeddingCollectionName]: [] }), {}),
+  );
 
   const { execute, isLoading } = eleganceClient.hooks.useSearchChatCompletion();
 
@@ -37,13 +44,16 @@ export function ChatContainer({ className, ...props }: ChatContainerProps) {
 
   const handleSubmit: SubmitHandler<FormSchema> = async (values) => {
     try {
-      setMessages((messages) => [
+      setMessages((messages) => ({
         ...messages,
-        { createdAt: new Date().getTime(), content: values.content, role: "user" },
-      ]);
+        [activeBook]: [
+          ...messages[activeBook],
+          { createdAt: new Date().getTime(), content: values.content, role: "user" },
+        ],
+      }));
 
       const completion = await execute({
-        collection: "the_phantom_of_the_opera",
+        collection: activeBook,
         model: "gpt-4o",
         systemRole: "You are a helpful assistant",
         prompt: values.content,
@@ -51,10 +61,13 @@ export function ChatContainer({ className, ...props }: ChatContainerProps) {
       });
 
       if (completion?.content) {
-        setMessages((messages) => [
+        setMessages((messages) => ({
           ...messages,
-          { createdAt: new Date().getTime(), content: completion.content!, role: "assistant" },
-        ]);
+          [activeBook]: [
+            ...messages[activeBook],
+            { createdAt: new Date().getTime(), content: completion.content!, role: "assistant" },
+          ],
+        }));
       }
     } catch (error) {
       console.error(error);
@@ -68,35 +81,57 @@ export function ChatContainer({ className, ...props }: ChatContainerProps) {
       {...props}
       className={cn("mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4", className)}
     >
-      <Card className="relative flex-1 overflow-hidden">
-        <div className="absolute left-0 top-0 flex h-full w-full flex-col-reverse overflow-x-hidden overflow-y-scroll p-4">
-          <ul className="flex flex-col gap-4">
-            {messages.map((message) => {
-              const date = new Date(message.createdAt).toLocaleTimeString("en-US", { hour12: false });
-              return (
-                <li
-                  key={message.createdAt}
-                  className={cn("max-w-[75%]", message.role === "user" && "self-end")}
+      <Card className="relative flex flex-1 flex-col overflow-hidden">
+        <div className="flex items-center justify-center border-b p-4">
+          <Select onValueChange={setActiveBook}>
+            <SelectTrigger className="w-64">
+              <SelectValue placeholder="Select book" />
+            </SelectTrigger>
+            <SelectContent>
+              {books.map((book) => (
+                <SelectItem
+                  key={book.id}
+                  value={book.embeddingCollectionName}
                 >
-                  <Card className="px-4 py-2">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-medium capitalize">{message.role}</h4>
-                      <time
-                        className="text-xs text-muted-foreground"
-                        dateTime={date}
-                      >
-                        {date}
-                      </time>
-                    </div>
-                    <div className="mt-1 w-full max-w-full [&_pre]:overflow-auto">
-                      <Markdown>{message.content}</Markdown>
-                    </div>
-                  </Card>
-                </li>
-              );
-            })}
-          </ul>
+                  <h6 className="line-clamp-1 w-full max-w-64">{book.title}</h6>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
+
+        <div className="relative flex-1">
+          <div className="absolute left-0 top-0 flex h-full w-full flex-col-reverse overflow-x-hidden overflow-y-scroll p-4">
+            <ul className="flex flex-col gap-4">
+              {activeBook &&
+                messages[activeBook].map((message) => {
+                  const date = new Date(message.createdAt).toLocaleTimeString("en-US", { hour12: false });
+                  return (
+                    <li
+                      key={message.createdAt}
+                      className={cn("max-w-[75%]", message.role === "user" && "self-end")}
+                    >
+                      <Card className="px-4 py-2">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium capitalize">{message.role}</h4>
+                          <time
+                            className="text-xs text-muted-foreground"
+                            dateTime={date}
+                          >
+                            {date}
+                          </time>
+                        </div>
+                        <div className="mt-1 w-full max-w-full [&_pre]:overflow-auto">
+                          <Markdown>{message.content}</Markdown>
+                        </div>
+                      </Card>
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        </div>
+
         {isLoading && (
           <span className="absolute bottom-4 left-4 flex items-center gap-1 text-sm text-muted-foreground">
             <Loader className="size-5" />
