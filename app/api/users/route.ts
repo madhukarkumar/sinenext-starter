@@ -7,9 +7,9 @@ import { getUsers } from "@/lib/user/get-many";
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const skip = +(searchParams.get("skip") ?? 0);
+    const offset = +(searchParams.get("skip") ?? 0);
     const limit = +(searchParams.get("limit") ?? 10);
-    const users = await getUsers({ skip, limit });
+    const users = await getUsers({ offset, limit });
     return NextResponse.json(users);
   } catch (error) {
     console.error(error);

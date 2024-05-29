@@ -1,5 +1,9 @@
-import { prisma } from "@/lib/prisma";
+import { eleganceServerClient } from "@/lib/elegance/server-client";
 
-export function countUsers() {
-  return prisma.users.count();
+export async function countUsers() {
+  const result = await eleganceServerClient.controllers.query<{ count: number }[]>({
+    query: `SELECT COUNT(*) as count FROM users`,
+  });
+
+  return result[0].count;
 }

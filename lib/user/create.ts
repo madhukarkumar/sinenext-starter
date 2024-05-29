@@ -1,6 +1,6 @@
-import { prisma } from "@/lib/prisma";
+import { eleganceServerClient } from "@/lib/elegance/server-client";
 import { User } from "@/types/user";
 
-export function createUser(data: User) {
-  return prisma.users.create({ data });
+export function createUser(value: User) {
+  return eleganceServerClient.controllers.insertOne({ collection: "users", value });
 }

@@ -1,5 +1,5 @@
 {
-  "name": "singlestore-prisma-starter",
+  "name": "sinnext-starter",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
-    "@prisma/client": "^5.14.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-select": "^2.0.0",
@@ -21,7 +20,6 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.379.0",
     "next": "14.2.3",
-    "prisma": "^5.14.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",

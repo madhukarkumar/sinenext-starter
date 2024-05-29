@@ -31,7 +31,7 @@ export default function Home() {
         className="mt-4 items-center gap-1"
       >
         <Link
-          href="https://github.com/madhukarkumar/singlestore-prisma-starter"
+          href="https://github.com/madhukarkumar/sinnext-starter"
           target="_blank"
         >
           <Folder className="size-5" />
