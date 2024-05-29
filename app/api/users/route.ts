@@ -15,7 +15,7 @@ function handleError(error: unknown) {
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const offset = +(searchParams.get("skip") ?? 0);
+    const offset = +(searchParams.get("offset") ?? 0);
     const limit = +(searchParams.get("limit") ?? 10);
     const users = await getUsers({ offset, limit });
     return NextResponse.json(users);

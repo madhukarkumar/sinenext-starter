@@ -7,8 +7,18 @@ import { UsersTable } from "@/components/user/table";
 
 export const metadata: Metadata = { title: "Users" };
 
-export default async function UsersPage() {
-  const [users, usersCount] = await Promise.all([getUsers({ limit: 10 }), countUsers()]);
+export default async function UsersPage({
+  searchParams,
+}: {
+  searchParams: { offset?: string; limit?: string };
+}) {
+  const [users, usersCount] = await Promise.all([
+    getUsers({
+      offset: +(searchParams.offset || 0),
+      limit: +(searchParams.limit || 10),
+    }),
+    countUsers(),
+  ]);
 
   return (
     <>
