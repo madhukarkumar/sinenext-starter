@@ -1,1 +1,1 @@
-export const IS_PUBLIC = process.env.IS_PUBLIC === "true" || false;
+export const IS_PUBLIC = process.env.NEXT_PUBLIC_IS_PUBLIC === "true" || false;

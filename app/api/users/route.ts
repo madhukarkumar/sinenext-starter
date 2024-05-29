@@ -1,6 +1,7 @@
 // app/api/users/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
+import { IS_PUBLIC } from "@/constants";
 import { createUser } from "@/lib/user/create";
 import { deleteUser } from "@/lib/user/delete";
 import { getUsers } from "@/lib/user/get-many";
@@ -26,6 +27,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    if (IS_PUBLIC) throw new Error("Not allowed");
     const body = await req.json();
     await createUser(body);
     return new NextResponse(null, { status: 201 });
@@ -36,6 +38,7 @@ export async function POST(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
+    if (IS_PUBLIC) throw new Error("Not allowed");
     const { searchParams } = new URL(req.url);
     const id = +(searchParams.get("id") ?? 0);
     if (!id) throw new Error("id is undefined");
@@ -49,6 +52,7 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    if (IS_PUBLIC) throw new Error("Not allowed");
     const { searchParams } = new URL(req.url);
     const id = +(searchParams.get("id") ?? 0);
     if (!id) throw new Error("id is undefined");
