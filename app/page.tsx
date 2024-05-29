@@ -1,3 +1,4 @@
+import { Folder } from "lucide-react";
 import Link from "next/link";
 
 import { Dots } from "@/components/dots";
@@ -17,12 +18,26 @@ export default function Home() {
 
       <div className="mt-6 flex items-center gap-4 md:mt-12">
         <Button asChild>
-          <Link href={ROUTES.USERS}>CRUD example</Link>
+          <Link href={ROUTES.USERS}>CRUD Example</Link>
         </Button>
         <Button asChild>
           <Link href={ROUTES.CHAT}>AI Chatbot</Link>
         </Button>
       </div>
+
+      <Button
+        asChild
+        variant="outline"
+        className="mt-4 items-center gap-1"
+      >
+        <Link
+          href="https://github.com/madhukarkumar/singlestore-prisma-starter"
+          target="_blank"
+        >
+          <Folder className="size-5" />
+          Git Repository
+        </Link>
+      </Button>
 
       <Dots />
     </main>
