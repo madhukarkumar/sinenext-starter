@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 
 import type { Metadata } from "next";
@@ -5,6 +6,7 @@ import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
+
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500"] });
 
@@ -20,6 +22,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <Analytics />
       <body
         className={cn(
           inter.className,

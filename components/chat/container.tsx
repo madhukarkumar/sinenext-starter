@@ -55,7 +55,8 @@ export function ChatContainer({ className, books, ...props }: ChatContainerProps
       const completion = await execute({
         collection: activeBook,
         model: "gpt-4o",
-        systemRole: "You are a helpful assistant",
+        systemRole:
+          "You are a helpful assistant that can answer questions about the book. You can also provide summaries, explanations, and more.",
         prompt: values.content,
         maxContextLength: 5000,
       });
