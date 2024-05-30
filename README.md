@@ -3,12 +3,12 @@
 This Next.js starter project is designed to get started with development of full stack AI applications that uses SingleStoreDB (MySQL wire protocol compatible) for transactional, analytics and vector data. It leverages Elegance SDK to simplify database interactions and build intelligent chatbots.
 Features
 
-### Next.js 13: Modern React framework for building fast and scalable web applications.
-### SingleStoreDB: A powerful, distributed database that combines transactional and analytical workloads. Sign up on [singlestore.com](https://singlestore.com)
-### Elegance SDK: Simplifies the integration of AI capabilities (vector search, chat) and CRUD with SingleStoreDB.
-### Example API Routes: Demonstrates basic CRUD operations and provides a starting point for your API.
-### Chat Component: A reusable chat component to easily build chatbot interfaces.
-### Example Pages: Includes a chatbot page with a simple chat interface and a users table page with CRUD operations.
+1. Next.js 13: Modern React framework for building fast and scalable web applications.
+2. SingleStoreDB: A powerful, distributed database that combines transactional and analytical workloads. Sign up on [singlestore.com](https://singlestore.com)
+3. Elegance SDK: Simplifies the integration of AI capabilities (vector search, chat) and CRUD with SingleStoreDB.
+4. Example API Routes: Demonstrates basic CRUD operations and provides a starting point for your API.
+5. Chat Component: A reusable chat component to easily build chatbot interfaces.
+6. Example Pages: Includes a chatbot page with a simple chat interface and a users table page with CRUD operations.
 
 ## Section 1: Local Development Setup
 ### 1.1 Prerequisites
